@@ -1,0 +1,781 @@
+<html>
+    <title>Index</title>
+
+    <head>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google
+                .charts
+                .load('current', {packages: ['corechart']});
+        </script>
+
+        <style>
+            .sk-cube-grid {
+                width: 40px;
+                height: 40px;
+                margin: 40px auto;
+                /*
+   * Spinner positions
+   * 1 2 3
+   * 4 5 6
+   * 7 8 9
+   */
+            }
+
+            .sk-cube-grid .sk-cube {
+                width: 33.33%;
+                height: 33.33%;
+                background-color: #060057;
+                float: left;
+                -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+                animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            }
+
+            .sk-cube-grid .sk-cube1 {
+                background-color: #b2e6fa;
+                -webkit-animation-delay: 0.2s;
+                animation-delay: 0.2s;
+            }
+
+            .sk-cube-grid .sk-cube2 {
+                background-color: #00adef;
+                -webkit-animation-delay: 0.3s;
+                animation-delay: 0.3s;
+            }
+
+            .sk-cube-grid .sk-cube3 {
+                background-color: #0089BE;
+                -webkit-animation-delay: 0.4s;
+                animation-delay: 0.4s;
+            }
+
+            .sk-cube-grid .sk-cube4 {
+                background-color: #b2e6fa;
+                -webkit-animation-delay: 0.1s;
+                animation-delay: 0.1s;
+            }
+
+            .sk-cube-grid .sk-cube5 {
+                background-color: #00adef;
+                -webkit-animation-delay: 0.2s;
+                animation-delay: 0.2s;
+            }
+
+            .sk-cube-grid .sk-cube6 {
+                background-color: #0089BE;
+                -webkit-animation-delay: 0.3s;
+                animation-delay: 0.3s;
+            }
+
+            .sk-cube-grid .sk-cube7 {
+                background-color: #b2e6fa;
+                -webkit-animation-delay: 0.0s;
+                animation-delay: 0.0s;
+            }
+
+            .sk-cube-grid .sk-cube8 {
+                background-color: #0089BE;
+                -webkit-animation-delay: 0.1s;
+                animation-delay: 0.1s;
+            }
+
+            .sk-cube-grid .sk-cube9 {
+                background-color: #0089BE;
+                -webkit-animation-delay: 0.2s;
+                animation-delay: 0.2s;
+            }
+            @-webkit-keyframes sk-cubeGridScaleDelay {
+                0%,
+                100%,
+                70% {
+                    -webkit-transform: scale3D(1, 1, 1);
+                    transform: scale3D(1, 1, 1);
+                }
+
+                35% {
+                    -webkit-transform: scale3D(0, 0, 1);
+                    transform: scale3D(0, 0, 1);
+                }
+            }
+            @keyframes sk-cubeGridScaleDelay {
+                0%,
+                100%,
+                70% {
+                    -webkit-transform: scale3D(1, 1, 1);
+                    transform: scale3D(1, 1, 1);
+                }
+
+                35% {
+                    -webkit-transform: scale3D(0, 0, 1);
+                    transform: scale3D(0, 0, 1);
+                }
+            }
+
+            ::-webkit-scrollbar {
+                width: 5px;
+                height: 5px;
+            }
+
+            ::-webkit-scrollbar-button {
+                background: #ccc;
+            }
+
+            ::-webkit-scrollbar-track-piece {
+                background: #888;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: steelblue;
+            }
+
+            .topPanel {
+                width: 100%;
+                min-height: 20%;
+                max-height: 20%;
+                background-color: #1b1b1b;
+            }
+
+            .leftPanel {
+                background-color: #383f49;
+                float: left;
+                min-width: 20%;
+                max-width: 20%;
+                min-height: 80%;
+                max-height: 80%;
+                overflow: auto;
+
+            }
+
+            .rightPanel {
+                background-color: #252A33;
+                float: right;
+                min-width: 80%;
+                max-width: 80%;
+                min-height: 80%;
+                max-height: 80%;
+                overflow: auto;
+            }
+
+            .threadNavList {
+                display: block;
+                margin: 0;
+                left: 0;
+                width: 100%;
+                height: 20px;
+                border: 0;
+                border-bottom: 1px solid #383F49;
+                text-align: left;
+                padding-left: 3px;
+                font-size: 14px;
+            }
+
+            .threadNavList::before {
+                margin-right: 4px;
+                content: "";
+                border: solid black;
+                border-width: 0 2px 2px 0;
+                display: inline-block;
+                padding: 3px;
+                transform: rotate(-45deg);
+                -webkit-transform: rotate(-45deg);
+                float: right;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            .down.threadNavList::before {
+                border: solid blue;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+            }
+
+            .suiteNavList {
+                float: left;
+                padding-left: 10px;
+                display: none;
+                margin: 0;
+                left: 5px;
+                width: 100%;
+                height: 20px;
+                border: 0;
+                border-bottom: 1px solid #383F49;
+                text-align: left;
+                padding-left: 10px;
+                font-size: 12px;
+            }
+
+            .suiteNavList::before {
+                margin-right: 5px;
+                content: "";
+                border: solid black;
+                border-width: 0 2px 2px 0;
+                display: inline-block;
+                padding: 3px;
+                transform: rotate(-45deg);
+                -webkit-transform: rotate(-45deg);
+                float: right;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            .down.suiteNavList::before {
+                border: solid blue;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+            }
+
+            .suiteItemList {
+                display: none;
+                padding-left: 20px;
+                border-left: 5px solid #383f49;
+                left: 5px;
+                width: 100%;
+                height: 20px;
+                border-top: 0;
+                border-right: 0;
+                border-bottom: 1px solid #383F49;
+                text-align: left;
+                font-size: 11px;
+            }
+
+            .active {
+                border-left: 5px solid #00adef;
+            }
+
+            .step {
+                border: 2px solid grey;
+                color: grey;
+                background-color: #252A33;
+                text-align: left;
+                margin-left: 1%;
+                width: 99%;
+                margin-bottom: 2px;
+            }
+
+            .stepDetails {
+                text-align: left;
+                margin-left: 2%;
+                width: 97.4%;
+                display: none;
+                margin-bottom: 2px;
+                font-size: 12px;
+            }
+
+            .stepLineDetail {
+                margin-left: 2%;
+                font-size: 12px;
+                color: grey;
+            }
+
+            .suiteDetail {
+                display: none;
+                color: grey;
+            }
+
+            .testCaseDetail {
+                display: none;
+                color: grey;
+            }
+        </style>
+    </head>
+    <body style="background-color:rgb(27, 27, 27); margin:0px;">
+        <div id="mainDiv">
+            <!-- Top Panel Start -->
+            <div class="topPanel">
+                <div id="chart_div" style="float:left; width: 150px; height: 20%;">
+
+                    <div id="totalTcDiv" style="width: 300px; height: 100%;"></div>
+                </div>
+                <div style="float:right;height:10px;">
+                    <a style="color:grey;" target="_blank" href="jsCover/instrumented/jscoverage.html">JSCoverage</a>
+                </div>
+            </div>
+            <!-- Top Panel End -->
+            <!-- Left Navigation Panel Start -->
+            <div class="leftPanel">
+                <div>
+                    #foreach($thread in $executionThreadDetailsMap.keySet())
+                        #if($executionThreadDetailsMap.get($thread).getExecutionStatus() != "start")
+                            #if($executionThreadDetailsMap.get($thread).getStatus() == "PASS")
+                                <button class="threadNavList" style="background-color: green;">$thread</button>
+                                #elseif($executionThreadDetailsMap.get($thread).getStatus() == "FAIL")
+                                <button class="threadNavList" style="background-color: red;">$thread</button>
+                                #elseif($executionThreadDetailsMap.get($thread).getStatus() == "SKIPPED")
+                                <button class="threadNavList" style="background-color: #088efc;">$thread</button>
+                            #else
+                                <button class="threadNavList" style="background-color: yellow;">$thread</button>
+                            #end
+                            #set($suiteDetialList = $executionThreadDetailsMap.get($thread).getSuiteDetails().get($thread))
+                            <div>
+                                #foreach($suiteDetail in $suiteDetialList)
+                                    #if($suiteDetail.getStatus() == "PASS")
+                                        <button class="suiteNavList" style="background-color:green">$suiteDetail.getSuiteName()</button>
+                                        #elseif($suiteDetail.getStatus() == "FAIL")
+                                        <button class="suiteNavList" style="background-color:red">$suiteDetail.getSuiteName()</button>
+                                        #elseif($suiteDetail.getStatus() == "SKIPPED")
+                                        <button class="suiteNavList" style="background-color:#088efc">$suiteDetail.getSuiteName()</button>
+                                    #else
+                                        <button class="suiteNavList" style="background-color:yellow">$suiteDetail.getSuiteName()</button>
+                                    #end
+                                    <div>
+                                        #foreach($testCase in $suiteDetail.getTestCaseList().get($suiteDetail.getSuiteName()))
+                                            #if($testCase.getTestCaseStatus() == "PASS")
+                                                <button id="$testCase.getTestCaseId()" class="suiteItemList" style="background-color: green;">$testCase.getTestCase()</button>
+                                                #elseif($testCase.getTestCaseStatus() == "FAIL")
+                                                <button id="$testCase.getTestCaseId()" class="suiteItemList" style="background-color: red;">$testCase.getTestCase()</button>
+                                                #elseif($testCase.getTestCaseStatus() == "SKIPPED")
+                                                <button id="$testCase.getTestCaseId()" class="suiteItemList" style="background-color: #088efc;">$testCase.getTestCase()</button>
+                                            #else
+                                                <button id="$testCase.getTestCaseId()" class="suiteItemList" style="background-color: yellow;">$testCase.getTestCase()</button>
+                                            #end
+                                        #end
+                                    </div>
+                                #end
+                            </div>
+                        #end
+                    #end
+                </div>
+            </div>
+            <!-- Left Navigation Panel End -->
+            <!-- Right Panel Start -->
+            <div class="rightPanel">
+                <div id="testCaseDetails" style="height:80%;">
+                    <div id="contentLoading" float="right" style="display:none;top:50%;left:60%;position: absolute;">
+                        <div class="sk-cube-grid">
+                            <div class="sk-cube sk-cube1"></div>
+                            <div class="sk-cube sk-cube2"></div>
+                            <div class="sk-cube sk-cube3"></div>
+                            <div class="sk-cube sk-cube4"></div>
+                            <div class="sk-cube sk-cube5"></div>
+                            <div class="sk-cube sk-cube6"></div>
+                            <div class="sk-cube sk-cube7"></div>
+                            <div class="sk-cube sk-cube8"></div>
+                            <div class="sk-cube sk-cube9"></div>
+                        </div>
+                    </div>
+                    #foreach($thread in $executionThreadDetailsMap.keySet())
+                        #if($executionThreadDetailsMap.get($thread).getExecutionStatus() != "start")
+                            #set($suiteDetailList = $executionThreadDetailsMap.get($thread).getSuiteDetails().get($thread))
+                            #foreach($suiteDetail in $suiteDetailList)
+                                <div id="suite_$suiteDetail.getSuiteName()" class="suiteDetail">
+                                    <div style="float:left;">
+                                        <div>Suite Name :
+                                            <span>$suiteDetail.getSuiteName()</span></div>
+                                        <div>Suite Status :
+                                            <span>$suiteDetail.getStatus()</span></div>
+                                        <div>Total Tc :
+                                            <span>$suiteDetail.getSuiteTotalTc()</span></div>
+                                        <div>Total Pass Tc :
+                                            <span>$suiteDetail.getSuiteTotalPassTc()</span></div>
+                                        <div>Fail Tc :
+                                            <span>$suiteDetail.getSuiteTotalFailTc()</span></div>
+                                        <div>Skipped Tc :
+                                            <span>$suiteDetail.getSuiteTotalSkippedTc()</span></div>
+                                        <div>Start Time :
+                                            <span>$suiteDetail.getSuiteStartTime()</span></div>
+                                        <div>End Time :<span>
+                                                $suiteDetail.getSuiteEndTime()</span></div>
+                                        <div>Time :
+                                            <span>$suiteDetail.getSuiteTime()</span></div>
+                                    </div>
+                                    <div style="float:right;">
+                                        <div id="$thread_$suiteDetail.getSuiteName()"></div>
+                                    </div>
+                                </div>
+                                #foreach($testCase in $suiteDetail.getTestCaseList().get($suiteDetail.getSuiteName()))
+                                    <div id="detail_$testCase.getTestCaseId()" class="testCaseDetail">
+                                        <div style="height:100%;width: 100%;">
+                                            <div style="min-height:30%;max-height:30%;position: fixed;width: 100%;">
+                                                <div style="float:left;width:50%;height:30%;position: fixed;">
+                                                    <div style="float:left;width:40%;height:100%;">
+                                                        <div style="text-align:left;">Start Time :
+                                                            <span>$testCase.getStartTime()</span></div>
+                                                        <div style="text-align:left;">End Time :
+                                                            <span>$testCase.getEndTime()</span></div>
+                                                        <div style="text-align:left;">Time :
+                                                            <span>$testCase.getTestCaseTime()</span></div>
+                                                        <div style="text-align:left;">Status :
+                                                            <span>$testCase.getTestCaseStatus()</span></div>
+                                                    </div>
+
+                                                    <div style="float:left;width:20%;height:100%;">
+                                                        <div style="text-align:left;">Total Steps :
+                                                            <span>$testCase.getTotalSteps()</span></div>
+                                                        <div style="text-align:left;">Pass Steps :
+                                                            <span>$testCase.getPassSteps()</span></div>
+                                                        <div style="text-align:left;">Fail Steps :
+                                                            <span>$testCase.getFailSteps()</span></div>
+                                                        <div style="text-align:left;">Skipped Steps :<span>
+                                                                $testCase.getSkippedSteps()</span></div>
+                                                    </div>
+                                                </div>
+                                                <div style="float:right;width:50%;height:20%;">
+                                                    <div
+                                                        id="chart_$testCase.getTestCaseId()"
+                                                        style="right:0;width: 70%; height: 70%; display:inline-block;"></div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="max-height:60%;width:100%;overflow-y:auto;display:inline-block;top:40%;position: relative;">
+                                                <div style="min-height:60%;">
+                                                    #foreach($scriptDetail in $scriptDetailsMap.get($testCase.getTestCaseId()))
+                                                        #if($scriptDetail.getStatus() == "PASS")
+                                                            <button class="step" style="border-left: 5px solid green;">$scriptDetail.getStepDescription()</button>
+                                                            <div class="stepDetails" style="border: 2px solid green;">
+                                                                #elseif($scriptDetail.getStatus() == "FAIL")
+                                                                <button class="step" style="border-left: 5px solid red;">$scriptDetail.getStepDescription()</button>
+                                                                <div class="stepDetails" style="border: 2px solid red;">
+                                                                    #elseif($scriptDetail.getStatus() == "SKIPPED")
+                                                                    <button class="step" style="border-left: 5px solid #088efc;">$scriptDetail.getStepDescription()</button>
+                                                                    <div class="stepDetails" style="border: 2px solid #088efc;">
+                                                                    #else
+                                                                        <button class="step" style="border-left: 5px solid yellow;">$scriptDetail.getStepDescription()</button>
+                                                                        <div class="stepDetails" style="border: 2px solid yellow;">
+                                                                        #end
+                                                                        <div class="stepLineDetail">Keyword: $scriptDetail.getKeyword()</div>
+                                                                        <div class="stepLineDetail">Label: $scriptDetail.getLabel()</div>
+                                                                        <div class="stepLineDetail">Xpath: $scriptDetail.getXpath()</div>
+                                                                        <div class="stepLineDetail">ActualData: $scriptDetail.getActualData()</div>
+                                                                        <div class="stepLineDetail">StartTime: $scriptDetail.getStepStartTime()</div>
+                                                                        <div class="stepLineDetail">End Time: $scriptDetail.getStepEndTime()</div>
+                                                                        <div class="stepLineDetail">Step Time: $scriptDetail.getStepTime()</div>
+                                                                        <div class="stepLineDetail">Info: $scriptDetail.getInfo()</div>
+                                                                        #if(!$scriptDetail.getScreenShotPath())
+                                                                            <div class="stepLineDetail"></div>
+                                                                        #else
+                                                                            <div class="stepLineDetail">
+                                                                                <b style="font-size:10px;">ScreenShot :
+                                                                                </b>
+                                                                                <a target="_blank" href="$scriptDetail.getScreenShotPath()">$scriptDetail.getScreenShotPath()</a>
+                                                                            </div>
+                                                                        #end
+                                                                    </div>
+                                                                #end
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            #end
+                                        #end
+                                    #end
+                                #end
+                            </div>
+                        </div>
+                        <!-- Right Panel End -->
+                    </div>
+                    <script>
+                        function hideTestCaseDetails() {
+                            var suiteItemListDiv = document.getElementsByClassName('testCaseDetail');
+                            for (var n = 0; n < suiteItemListDiv.length; n++) {
+                                suiteItemListDiv[n].style.display = "none";
+                            }
+                        }
+                        function hideSuiteDetails() {
+                            var suiteDetailsListDiv = document.getElementsByClassName('suiteDetail');
+                            for (var n = 0; n < suiteDetailsListDiv.length; n++) {
+                                suiteDetailsListDiv[n].style.display = "none";
+                            }
+                        }
+                        var suiteNav = document.getElementsByClassName("suiteNavList");
+                        for (var m = 0; m < suiteNav.length; m++) {
+                            suiteNav[m].addEventListener("click", function () {
+                                hideTestCaseDetails();
+                                hideSuiteDetails();
+                                this
+                                    .classList
+                                    .toggle("down");
+                                var suiteDetails = document.getElementById("suite_" + this.innerText);
+
+                                document
+                                    .getElementById('contentLoading')
+                                    .style
+                                    .display = "block";
+                                suiteDetails.style.display = 'block';
+                                suiteDetails.style.opacity = "0.3";
+                                setTimeout(function () {
+                                    displayContent(suiteDetails);
+                                }, 500);
+
+                                var suitePassTc = suiteDetails
+                                    .getElementsByTagName("div")[0]
+                                    .getElementsByTagName("div")[3]
+                                    .getElementsByTagName("span")[0]
+                                    .innerText;
+                                var suiteFailTc = suiteDetails
+                                    .getElementsByTagName("div")[0]
+                                    .getElementsByTagName("div")[4]
+                                    .getElementsByTagName("span")[0]
+                                    .innerText;
+                                var suiteSkippedTc = suiteDetails
+                                    .getElementsByTagName("div")[0]
+                                    .getElementsByTagName("div")[5]
+                                    .getElementsByTagName("span")[0]
+                                    .innerText;
+                                var suitechartId = suiteDetails
+                                    .getElementsByTagName("div")[11]
+                                    .id;
+                                drawChartSuiteDetails(suitePassTc, suiteFailTc, suiteSkippedTc, suitechartId);
+                                var navContentList = this
+                                    .nextElementSibling
+                                    .getElementsByClassName("suiteItemList");
+                                for (var i = 0; i < navContentList.length; i++) {
+                                    var content = navContentList[i];
+                                    if (content.style.display === "block") {
+                                        content.style.display = "none";
+                                    } else {
+                                        content.style.display = "block";
+                                    }
+                                }
+                            });
+                        }
+                        var threadNav = document.getElementsByClassName("threadNavList");
+                        for (var m = 0; m < threadNav.length; m++) {
+                            threadNav[m].addEventListener("click", function () {
+                                this
+                                    .classList
+                                    .toggle("down");
+                                var suiteList = this
+                                    .nextElementSibling
+                                    .getElementsByClassName("suiteNavList");
+                                for (var i = 0; i < suiteList.length; i++) {
+                                    var content = suiteList[i];
+                                    if (content.style.display === "block") {
+                                        var navContentList = this
+                                            .nextElementSibling
+                                            .getElementsByClassName("suiteItemList");
+                                        var toggleFlag = false;
+                                        for (var j = 0; j < navContentList.length; j++) {
+                                            var testCase = navContentList[j];
+                                            if (testCase.style.display === "block") {
+                                                testCase.style.display = "none";
+                                                testCase
+                                                    .classList
+                                                    .remove("active");
+                                                toggleFlag = true;
+                                            }
+                                        }
+                                        if (toggleFlag) {
+                                            suiteList[i]
+                                                .classList
+                                                .toggle("down");
+                                        }
+
+                                        content.style.display = "none";
+
+                                    } else {
+                                        content.style.display = "block";
+                                    }
+                                }
+                            });
+                        }
+
+                        var suiteItemList = document.getElementsByClassName("suiteItemList");
+
+                        for (var m = 0; m < suiteItemList.length; m++) {
+                            suiteItemList[m].addEventListener("click", function () {
+                                for (var n = 0; n < suiteItemList.length; n++) {
+                                    suiteItemList[n]
+                                        .classList
+                                        .remove("active");
+                                }
+                                this
+                                    .classList
+                                    .add("active");
+                                var tcId = this.id;
+                                hideTestCaseDetails();
+                                hideSuiteDetails();
+                                var testCaseDetail = document.getElementById("detail_" + tcId);
+                                var passSteps = testCaseDetail
+                                    .getElementsByTagName("div")[0]
+                                    .getElementsByTagName("div")[9]
+                                    .getElementsByTagName("span")[0]
+                                    .innerText;
+                                var failSteps = testCaseDetail
+                                    .getElementsByTagName("div")[0]
+                                    .getElementsByTagName("div")[10]
+                                    .getElementsByTagName("span")[0]
+                                    .innerText;
+                                var skippedSteps = testCaseDetail
+                                    .getElementsByTagName("div")[0]
+                                    .getElementsByTagName("div")[11]
+                                    .getElementsByTagName("span")[0]
+                                    .innerText;
+                                var chartId = testCaseDetail
+                                    .getElementsByTagName("div")[14]
+                                    .id;
+                                testCaseDetail.style.display = "block";
+                                document
+                                    .getElementById('contentLoading')
+                                    .style
+                                    .display = "block";
+                                testCaseDetail.style.opacity = "0.3";
+                                setTimeout(function () {
+                                    displayContent(testCaseDetail);
+                                }, 500);
+                                testCaseDetail
+                                    .getElementsByTagName("div")[14]
+                                    .style
+                                    .display = "none";
+                                drawChartTestCaseDetail(passSteps, failSteps, skippedSteps, chartId);
+                                testCaseDetail
+                                    .getElementsByTagName("div")[14]
+                                    .style
+                                    .display = "block";
+
+                            });
+                        }
+                        var stepDetails = document.getElementsByClassName("step");
+                        for (var m = 0; m < stepDetails.length; m++) {
+                            stepDetails[m].addEventListener("click", function () {
+                                var stepDetail = this.nextElementSibling;
+                                if (stepDetail.style.display === "block") {
+                                    stepDetail.style.display = "none";
+                                } else {
+                                    stepDetail.style.display = "block";
+                                }
+                            });
+                        }
+
+                        google
+                            .charts
+                            .setOnLoadCallback(drawChartTotalTc);
+
+                        function drawChartTotalTc() {
+                            var data = google
+                                .visualization
+                                .arrayToDataTable([
+                                    [
+                                        'Tc', 'Total'
+                                    ],
+                                    [
+                                        'PASS', $totalPassTestCase
+                                    ],
+                                    [
+                                        'FAIL', $totalFailTestCase
+                                    ],
+                                    [
+                                        'SKIPPED', $totalSkippedTestCase
+                                    ]
+
+                                ]);
+
+                            var options = {
+                                title: "Total Tc's",
+                                is3D: true,
+                                backgroundColor: 'transparent',
+                                colors: [
+                                    'green', 'red', '#088efc'
+                                ],
+                                pieHole: 0.8,
+                                titleTextStyle: {
+                                    color: 'darkgrey'
+                                },
+                                legendTextStyle: {
+                                    color: 'darkgrey'
+                                },
+                                chartArea: {
+                                    left: "3%",
+                                    top: "10%",
+                                    height: "60%",
+                                    width: "60%"
+                                }
+                            };
+
+                            var chartTotalTc = new google
+                                .visualization
+                                .PieChart(document.getElementById('totalTcDiv'));
+                            chartTotalTc.draw(data, options);
+                        }
+                        function drawChartSuiteDetails(suitePassTc, suiteFailTc, suiteSkippedTc, suitechartId) {
+                            var data = google
+                                .visualization
+                                .arrayToDataTable([
+                                    [
+                                        'Suite Tc', 'Total'
+                                    ],
+                                    [
+                                        'PASS', parseInt(suitePassTc)
+                                    ],
+                                    [
+                                        'FAIL', parseInt(suiteFailTc)
+                                    ],
+                                    [
+                                        'SKIPPED', parseInt(suiteSkippedTc)
+                                    ]
+
+                                ]);
+
+                            var options = {
+                                title: "Suite Tc's",
+                                is3D: true,
+                                backgroundColor: 'transparent',
+                                colors: [
+                                    'green', 'red', '#088efc'
+                                ],
+                                pieHole: 0.8,
+                                titleTextStyle: {
+                                    color: 'darkgrey'
+                                },
+                                legendTextStyle: {
+                                    color: 'darkgrey'
+                                }
+                            };
+
+                            var chartSuite = new google
+                                .visualization
+                                .PieChart(document.getElementById(suitechartId));
+                            chartSuite.draw(data, options);
+                        }
+                        function drawChartTestCaseDetail(passSteps, failSteps, skippedSteps, chartId) {
+                            var data = google
+                                .visualization
+                                .arrayToDataTable([
+                                    [
+                                        'Test Case Steps', 'Total'
+                                    ],
+                                    [
+                                        'PASS', parseInt(passSteps)
+                                    ],
+                                    [
+                                        'FAIL', parseInt(failSteps)
+                                    ],
+                                    [
+                                        'SKIPPED', parseInt(skippedSteps)
+                                    ]
+
+                                ]);
+
+                            var options = {
+                                title: "Total Steps",
+                                is3D: true,
+                                backgroundColor: 'transparent',
+                                colors: [
+                                    'green', 'red', '#088efc'
+                                ],
+                                pieHole: 0.8,
+                                titleTextStyle: {
+                                    color: 'darkgrey'
+                                },
+                                legendTextStyle: {
+                                    color: 'darkgrey'
+                                }
+                            };
+
+                            var chartSteps = new google
+                                .visualization
+                                .PieChart(document.getElementById(chartId));
+                            chartSteps.draw(data, options);
+                        }
+                        function displayContent(detailDiv) {
+                            document
+                                .getElementById('contentLoading')
+                                .style
+                                .display = "none";
+                            detailDiv.style.display = "block";
+                            detailDiv.style.opacity = "1";
+                        }
+                    </script>
+                </body>
+            </html>

@@ -1,0 +1,149 @@
+componentDetails:
+ - component: "menu"
+   tag: "div"
+   className: "naveMenu"
+   method: ""   
+ - component: "textbox"
+   tag: "input"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "textbox"
+      check: true
+ - component: "password"
+   tag: "input"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "password"
+      check: true
+ - component: "textarea"
+   tag: "input"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "textarea"
+      check: true
+ - component: "radiobutton"
+   tag: "fieldset"
+   className: ""
+   method: ""
+   elementDetails:
+    - tag: "input"
+      className: ""
+      check: true
+      elementAttributeDetails:
+      - attributeName: "type"
+        value: "radio"
+        check: true
+ - component: "date"
+   tag: "input"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "date"
+      check: true
+ - component: "email"
+   tag: "input"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "email"
+      check: true
+ - component: "file"
+   tag: "input"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "file"
+      check: true
+ - component: "select"
+   tag: "select"
+   className: ""
+   method: ""
+   elementDetails:
+    - tag: "option"
+      className: ""
+      check: true
+ - component: "checkbox"
+   tag: "input"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "checkbox"
+      check: true
+ - component: "inputbutton"
+   tag: "input"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "button"
+      check: true
+ - component: "button"
+   tag: "button"
+   className: ""
+   method: ""
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "button"
+      check: true
+ - component: "tableColumn"
+   tag: "th"
+   className: ""
+   method: ""
+ - component: "searchIcon"
+   tag: "div"
+   className: "search-icon"
+   method: "com.acbc.Class.method"
+   componentAttributeDetails:
+    - attributeName: "tabindex"
+      value: "-1"
+      check: true
+   elementDetails:
+    - tag: "div"
+      className: "btn"
+      check: true
+      elementAttributeDetails:
+      - attributeName: "disabled"
+        value: "true"
+        check: true
+ - component: "UserName"
+   tag: "input"
+   className: "inputtext login_form_input_box"
+   method: "com.acbc.Class.method"
+   componentAttributeDetails:
+    - attributeName: "name"
+      value: "email"
+      check: true
+    - attributeName: "type"
+      value: "password"
+      check: false
+ - component: "Password"
+   tag: "input"
+   className: "inputtext login_form_input_box"
+   method: "com.acbc.Class.method"
+   componentAttributeDetails:
+    - attributeName: "type"
+      value: "password"
+      check: true
+ - component: "LogInButton"
+   tag: "label"
+   className: "login_form_login_button uiButton uiButtonConfirm"
+   elementDetails:
+    - tag: "input"
+      className: ""
+      check: true
+      elementAttributeDetails:
+      - attributeName: "value"
+        value: "Log In"
+        check: true
+
+      
