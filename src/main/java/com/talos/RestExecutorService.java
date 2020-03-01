@@ -46,12 +46,6 @@ public class RestExecutorService extends Init implements StringConstants, Runnab
 	/** The thread group name. */
 	String threadGroupName;
 	
-	/** The thread start dt time. */
-	String threadStartDtTime;
-	
-	/** The thread end dt time. */
-	String threadEndDtTime;
-	
 	/** The test case start dt time. */
 	String testCaseStartDtTime;
 	
@@ -124,8 +118,7 @@ public class RestExecutorService extends Init implements StringConstants, Runnab
 	@Override
 	public void run() {
 		try {
-			threadStartDtTime = dateFormat.format(new Date());
-			executionThreadDetailsMap.get(threadGroupName).setThreadStartTime(threadStartDtTime);
+			executionThreadDetailsMap.get(threadGroupName).setThreadStartTime(dateFormat.format(new Date()));
 			LinkedHashMultimap<String, TestCaseDetail> testCaseList = LinkedHashMultimap.create();
 			LinkedHashMultimap<String, SuiteDetail> threadSuiteDetails = LinkedHashMultimap.create();
 			SuiteDetail suiteDetail = new SuiteDetail();
@@ -279,14 +272,19 @@ public class RestExecutorService extends Init implements StringConstants, Runnab
 				threadSuiteDetails.put(threadGroupName, suiteDetail);
 				executionThreadDetailsMap.get(threadGroupName).setStatus(threadStatus);
 				executionThreadDetailsMap.get(threadGroupName).setSuiteDetails(threadSuiteDetails);
+				executionThreadDetailsMap.get(threadGroupName).setThreadFailTc(threadTotalFailedTc);
+				executionThreadDetailsMap.get(threadGroupName).setThreadTotalTc(threadTotalTc);
+				executionThreadDetailsMap.get(threadGroupName).setThreadPassTc(threadTotalPassTc);
 				FileGenerator.generateResultFile();
 			}
 
 		} catch (Exception e) {
 			logger.error(e);
 		} finally {
-			FileGenerator.generateResultFile();
 			executionThreadDetailsMap.get(threadGroupName).setExecutionStatus(FINISHED);
+			executionThreadDetailsMap.get(threadGroupName).setThreadEndTime(dateFormat.format(new Date()));
+			executionThreadDetailsMap.get(threadGroupName).setThreadTime(CommonUtils.getTime(executionThreadDetailsMap.get(threadGroupName).getThreadStartTime(), executionThreadDetailsMap.get(threadGroupName).getThreadEndTime()));
+			FileGenerator.generateResultFile();
 		}
 	}
 

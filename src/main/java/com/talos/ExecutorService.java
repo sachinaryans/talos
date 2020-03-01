@@ -64,6 +64,7 @@ public class ExecutorService extends Init implements Runnable, StringConstants {
 				} else {
 					RestExecutorService restExecutorService = new RestExecutorService(threadscriptDetailsMap, browser,
 							thread);
+							browser=REST;
 					executionThread = new Thread(restExecutorService);
 				}
 

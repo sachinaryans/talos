@@ -39,6 +39,10 @@ public class ExecutionThreadDetail {
 	
 	/** The status. */
 	String status;
+
+	int threadTotalTc;
+	int threadPassTc;
+	int threadFailTc;
 	
 	/** The driver. */
 	WebDriver driver;
@@ -260,6 +264,30 @@ public class ExecutionThreadDetail {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public int getThreadTotalTc() {
+		return threadTotalTc;
+	}
+
+	public void setThreadTotalTc(int threadTotalTc) {
+		this.threadTotalTc = threadTotalTc;
+	}
+
+	public int getThreadPassTc() {
+		return threadPassTc;
+	}
+
+	public void setThreadPassTc(int threadPassTc) {
+		this.threadPassTc = threadPassTc;
+	}
+
+	public int getThreadFailTc() {
+		return threadFailTc;
+	}
+
+	public void setThreadFailTc(int threadFailTc) {
+		this.threadFailTc = threadFailTc;
 	}
 
 }

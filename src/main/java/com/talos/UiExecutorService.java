@@ -47,13 +47,6 @@ public class UiExecutorService extends Init implements Runnable, StringConstants
 	
 	/** The thread group name. */
 	String threadGroupName;
-	
-	/** The thread start dt time. */
-	String threadStartDtTime;
-	
-	/** The thread end dt time. */
-	String threadEndDtTime;
-	
 	/** The test case start dt time. */
 	String testCaseStartDtTime;
 	
@@ -116,8 +109,7 @@ public class UiExecutorService extends Init implements Runnable, StringConstants
 	@Override
 	public void run() {
 		try {
-			threadStartDtTime = dateFormat.format(new Date());
-			executionThreadDetailsMap.get(threadGroupName).setThreadStartTime(threadStartDtTime);
+			executionThreadDetailsMap.get(threadGroupName).setThreadStartTime(dateFormat.format(new Date()));
 			driver = getWebdriver();
 			listOfWebdriver.add(driver);
 			executionThreadDetailsMap.get(threadGroupName).setDriver(driver);
@@ -246,13 +238,15 @@ public class UiExecutorService extends Init implements Runnable, StringConstants
 				threadSuiteDetails.put(threadGroupName, suiteDetail);
 				executionThreadDetailsMap.get(threadGroupName).setStatus(threadStatus);
 				executionThreadDetailsMap.get(threadGroupName).setSuiteDetails(threadSuiteDetails);
+				executionThreadDetailsMap.get(threadGroupName).setThreadFailTc(threadTotalFailedTc);
+				executionThreadDetailsMap.get(threadGroupName).setThreadTotalTc(threadTotalTc);
+				executionThreadDetailsMap.get(threadGroupName).setThreadPassTc(threadTotalPassTc);
 				FileGenerator.generateResultFile();
 			}
 		} catch (Exception e) {
 			logger.error(e);
 		} finally {
 			if (driver != null && !isStopped) {
-				FileGenerator.generateResultFile();
 				if (jscoverage) {
 					generateJavaScriptCodeCoverageReport(driver);
 				}
@@ -264,6 +258,10 @@ public class UiExecutorService extends Init implements Runnable, StringConstants
 				driver.close();
 				driver.quit();
 				executionThreadDetailsMap.get(threadGroupName).setExecutionStatus(FINISHED);
+				executionThreadDetailsMap.get(threadGroupName).setThreadEndTime(dateFormat.format(new Date()));
+				executionThreadDetailsMap.get(threadGroupName).setThreadTime(CommonUtils.getTime(executionThreadDetailsMap.get(threadGroupName).getThreadStartTime(), executionThreadDetailsMap.get(threadGroupName).getThreadEndTime()));
+				FileGenerator.generateResultFile();
+
 			}
 		}
 	}
