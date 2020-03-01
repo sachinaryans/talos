@@ -278,6 +278,9 @@
                 display: none;
                 color: grey;
             }
+            table, th, td{
+			border: 1px solid grey;
+			}
         </style>
     </head>
     <body style="background-color:rgb(27, 27, 27); margin:0px;">
@@ -287,6 +290,36 @@
                 <div id="chart_div" style="float:left; width: 150px; height: 20%;">
 
                     <div id="totalTcDiv" style="width: 300px; height: 100%;"></div>
+                </div>
+                <div style="float:left;width:60%;margin-left:12%;margin-top:0;margin-right:0; overflow:auto;height: 20%;">
+                    <table  style="color:grey;" id="threadDetails">
+                        <thead>
+                            <th>Thread</th>
+                            <th>StartTime</th>
+                            <th>EndTime</th>
+                            <th>Exec Time</th>
+                            <th>TotalTc</th>
+                            <th>PassTc</th>
+                            <th>Fail Tc</th>
+                            <th>Browser</th>
+                            <th>Status</th>
+                        </thead>
+                         <tbody style="font-size:12px;">
+                            #foreach($thread in $executionThreadDetailsMap.keySet())
+                                <tr>
+                                    <td>$thread</td>
+                                    <td>$executionThreadDetailsMap.get($thread).getThreadStartTime()</td>
+                                    <td>$executionThreadDetailsMap.get($thread).getThreadEndTime()</td>
+                                    <td>$executionThreadDetailsMap.get($thread).getThreadTime()</td>
+                                    <td>$executionThreadDetailsMap.get($thread).getThreadTotalTc()</td>
+                                    <td>$executionThreadDetailsMap.get($thread).getThreadPassTc()</td>
+                                    <td>$executionThreadDetailsMap.get($thread).getThreadFailTc()</td>
+                                    <td>$executionThreadDetailsMap.get($thread).getBrowser()</td>
+                                    <td>$executionThreadDetailsMap.get($thread).getExecutionStatus()</td>
+                                </tr>
+                            #end
+                        </tbody>
+                    </table>
                 </div>
                 <div style="float:right;height:10px;">
                     <a style="color:grey;" target="_blank" href="jsCover/instrumented/jscoverage.html">JSCoverage</a>
@@ -516,7 +549,7 @@
                                 var suitechartId = suiteDetails
                                     .getElementsByTagName("div")[11]
                                     .id;
-                                drawChartSuiteDetails(suitePassTc, suiteFailTc, suiteSkippedTc, suitechartId);
+                                
                                 var navContentList = this
                                     .nextElementSibling
                                     .getElementsByClassName("suiteItemList");
@@ -528,6 +561,7 @@
                                         content.style.display = "block";
                                     }
                                 }
+                                drawChartSuiteDetails(suitePassTc, suiteFailTc, suiteSkippedTc, suitechartId);
                             });
                         }
                         var threadNav = document.getElementsByClassName("threadNavList");
