@@ -2,8 +2,8 @@ package com.talos.selenium;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.talos.Init;
@@ -15,7 +15,7 @@ import com.talos.Init;
 public class Browser extends Init {
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(Browser.class);
+	final static Logger logger = LogManager.getLogger(Browser.class);
 
 	/**
 	 * Launch browser.

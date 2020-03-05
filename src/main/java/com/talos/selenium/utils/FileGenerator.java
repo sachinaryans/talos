@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 
-import org.apache.log4j.Logger;
-import org.apache.velocity.VelocityContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import com.talos.Init;
@@ -17,7 +17,7 @@ import com.talos.Init;
 public class FileGenerator extends Init {
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(FileGenerator.class);
+	final static Logger logger = LogManager.getLogger(FileGenerator.class);
 
 	/**
 	 * Generate result file.

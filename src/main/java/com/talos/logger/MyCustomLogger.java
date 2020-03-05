@@ -1,21 +1,58 @@
 package com.talos.logger;
 
-import org.apache.log4j.WriterAppender;
-import org.apache.log4j.spi.LoggingEvent;
+import java.io.Serializable;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
+import org.apache.logging.log4j.core.config.plugins.PluginElement;
+import org.apache.logging.log4j.core.config.plugins.PluginFactory;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MyCustomLogger.
  *
  * @author Sachin Sharma
  */
-public class MyCustomLogger extends WriterAppender {
+@Plugin(
+	    name = "MyCustomLogger",
+	    category = "Core",
+	    elementType = "appender",
+	    printObject = true)
+public class MyCustomLogger extends AbstractAppender {
 
 	/** The text area. */
 	@SuppressWarnings("restriction")
 	private static volatile TextArea textArea = null;
+	
+	/** The rw lock. */
+	private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+	
+	/** The read lock. */
+	private final Lock readLock = rwLock.readLock();
+
+	/**
+	 * Instantiates a new my custom logger.
+	 *
+	 * @param name the name
+	 * @param filter the filter
+	 * @param layout the layout
+	 * @param ignoreExceptions the ignore exceptions
+	 */
+	protected MyCustomLogger(String name, Filter filter, Layout<? extends Serializable> layout,
+			final boolean ignoreExceptions) {
+		super(name, filter, layout, ignoreExceptions);
+	}
 
 	/**
 	 * Set the target TextArea for the logging information to appear.
@@ -33,11 +70,9 @@ public class MyCustomLogger extends WriterAppender {
 	 * @param loggingEvent the logging event
 	 */
 	@SuppressWarnings("restriction")
-	@Override
-	public void append(final LoggingEvent loggingEvent) {
-		final String message = this.layout.format(loggingEvent);
-
-		// Append formatted message to text area using the Thread.
+	public void append(LogEvent loggingEvent) {
+		readLock.lock();
+		final String message = new String(getLayout().toByteArray(loggingEvent)).replace("\n", "");
 		try {
 			Platform.runLater(new Runnable() {
 				@Override
@@ -58,6 +93,31 @@ public class MyCustomLogger extends WriterAppender {
 			});
 		} catch (final IllegalStateException e) {
 			// ignore case when the platform hasn't yet been iniitialized
+		} finally {
+			readLock.unlock();
 		}
 	}
+
+	/**
+	 * Creates the appender.
+	 *
+	 * @param name the name
+	 * @param layout the layout
+	 * @param filter the filter
+	 * @return the my custom logger
+	 */
+	@PluginFactory
+	public static MyCustomLogger createAppender(@PluginAttribute("name") String name,
+			@PluginElement("Layout") Layout<? extends Serializable> layout,
+			@PluginElement("Filter") final Filter filter) {
+		if (name == null) {
+			LOGGER.error("No name provided for TextAreaAppender");
+			return null;
+		}
+		if (layout == null) {
+			layout = PatternLayout.createDefaultLayout();
+		}
+		return new MyCustomLogger(name, filter, layout, true);
+	}
+
 }

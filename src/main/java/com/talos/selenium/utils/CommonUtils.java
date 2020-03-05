@@ -1,6 +1,8 @@
 package com.talos.selenium.utils;
 
 import java.awt.Graphics2D;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
@@ -8,13 +10,14 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,12 +28,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.collect.LinkedHashMultimap;
 import com.talos.Init;
 import com.talos.constants.StringConstants;
+import com.talos.pojo.ComponentDetails;
 import com.talos.pojo.StepDetail;
 import com.talos.pojo.SuiteDetail;
 import com.talos.pojo.TestCaseDetail;
+import com.talos.pojo.ComponentDetails.Component;
 
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
@@ -44,7 +51,7 @@ import ru.yandex.qatools.ashot.coordinates.WebDriverCoordsProvider;
 public class CommonUtils extends Init implements StringConstants {
 
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(CommonUtils.class);
+	final static Logger logger = LogManager.getLogger(CommonUtils.class);
 
 	/**
 	 * Sets the step start details.
@@ -166,7 +173,7 @@ public class CommonUtils extends Init implements StringConstants {
 			} catch (Exception e) {
 				logger.error(e);
 			}
-			if(el!=null){
+			if (el != null) {
 				break;
 			}
 			TimeUnit.SECONDS.sleep(1);
@@ -496,5 +503,40 @@ public class CommonUtils extends Init implements StringConstants {
 			logger.error("No Alert found");
 		}
 		return alert;
+	}
+
+	/**
+	 * Execute custom method.
+	 *
+	 * @param stepDetail the step detail
+	 * @param driver the driver
+	 */
+	public static void executeCustomMethod(StepDetail stepDetail, WebDriver driver) {
+		setStepStartDetails(stepDetail, stepDetail.getComponentKeyword(),
+				getLocalizationReportData(stepDetail, "$excuteCustomMethod"));
+		try {
+			boolean executed = false;
+			String[] keywordArray = stepDetail.getComponentKeyword().split("\\.");
+			String method = keywordArray[keywordArray.length - 1];
+			String className = stepDetail.getComponentKeyword().replace(DOT.concat(method), BLANK);
+			Class<?> c = Class.forName(className);
+			Object obj = c.newInstance();
+			Method methods[] = obj.getClass().getMethods();
+			for (Method methodName : methods) {
+				if (!methodName.toString().isEmpty()&& methodName.getName().equals(method)) {
+					methodName.invoke(obj,stepDetail, driver);
+					executed = true;
+				}
+			}
+			if (!executed) {
+				setFailDetails(stepDetail, stepDetail.getComponentKeyword() + ":- Method not Found",
+						driver);
+			}
+		} catch (Exception e) {
+			setFailDetails(stepDetail, e.toString(), driver);
+		} finally {
+			setStepEndDetails(stepDetail);
+		}
+
 	}
 }

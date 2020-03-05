@@ -1,10 +1,11 @@
 package com.talos.excel;
 
 import java.io.FileOutputStream;
+
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
-import org.apache.poi.ss.usermodel.Cell;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -19,7 +20,7 @@ import com.talos.constants.StringConstants;
 public class CreateRestTemplate implements StringConstants {
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(CreateRestTemplate.class);
+	final static Logger logger = LogManager.getLogger(CreateRestTemplate.class);
 
 	/**
 	 * Creates the.

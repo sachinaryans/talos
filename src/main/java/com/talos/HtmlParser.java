@@ -3,7 +3,8 @@ package com.talos;
 import java.io.File;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,36 +13,35 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.talos.constants.StringConstants;
 import com.talos.excel.CreateExcelTemplate;
-import com.talos.pojo.ComponentDetails;
 import com.talos.pojo.ComponentDetails.AttributeDetail;
 import com.talos.pojo.ComponentDetails.Component;
 import com.talos.pojo.ComponentDetails.ElementDetail;
 import com.talos.selenium.utils.CommonUtils;
+import com.talos.utils.Utils;
 
 /**
  * The Class HtmlParser.
+ * 
  * @author Sachin
  */
 public class HtmlParser extends Init implements StringConstants {
-	
+
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(HtmlParser.class);
-	
-	/** The component details. */
-	ComponentDetails componentDetails;
-	
+	final static Logger logger = LogManager.getLogger(HtmlParser.class);
+
 	/** The workbook. */
 	Workbook workbook = null;
-	
+
 	/** The cell ctr. */
 	int cellCtr = 4;
-	
+
 	/** The parser driver. */
 	WebDriver parserDriver;
+	
+	
+
 
 	/**
 	 * This method reads the html and creates the template
@@ -53,14 +53,11 @@ public class HtmlParser extends Init implements StringConstants {
 			cellCtr = 4;
 			if (generatorDriver != null) {
 				parserDriver = generatorDriver;
-				loadComponentDetails();
+				Utils.loadComponentDetails();
 				workbook = CreateExcelTemplate.createHeaders();
 				Document doc = Jsoup.parse(generatorDriver.getPageSource());
 				printAllElement(doc);
-				String fileName = doc.title()
-						.replace(SPACE, BLANK)
-						.replace(HYPHEN, BLANK)
-						.replace(DOT, BLANK)
+				String fileName = doc.title().replace(SPACE, BLANK).replace(HYPHEN, BLANK).replace(DOT, BLANK)
 						.concat(".xlsx");
 				CreateExcelTemplate.writeEndFieldDetails(workbook.getSheetAt(0), cellCtr + 1);
 				CreateExcelTemplate.saveExcel(workbook, templateDir.concat(File.separator).concat(fileName));
@@ -88,18 +85,6 @@ public class HtmlParser extends Init implements StringConstants {
 		}
 	}
 
-	/**
-	 * Load component details.
-	 */
-	public void loadComponentDetails() {
-		try {
-			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-			componentDetails = mapper.readValue(new File("conf/componentDetails.yml"), ComponentDetails.class);
-
-		} catch (Exception e) {
-			logger.error(e);
-		}
-	}
 
 	/**
 	 * Find component.
@@ -161,7 +146,7 @@ public class HtmlParser extends Init implements StringConstants {
 	/**
 	 * Prints the component details.
 	 *
-	 * @param el the el
+	 * @param el        the el
 	 * @param component the component
 	 */
 	public void printComponentDetails(Element el, String component) {
@@ -178,7 +163,7 @@ public class HtmlParser extends Init implements StringConstants {
 	/**
 	 * Find child element detail.
 	 *
-	 * @param el the el
+	 * @param el            the el
 	 * @param elementDetail the element detail
 	 * @return true, if successful
 	 */
@@ -266,7 +251,7 @@ public class HtmlParser extends Init implements StringConstants {
 	/**
 	 * Gets the label.
 	 *
-	 * @param el the el
+	 * @param el        the el
 	 * @param component the component
 	 * @return the label
 	 */
@@ -291,4 +276,5 @@ public class HtmlParser extends Init implements StringConstants {
 		return label;
 
 	}
+	
 }

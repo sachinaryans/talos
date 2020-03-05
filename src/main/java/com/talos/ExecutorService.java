@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -20,6 +21,7 @@ import com.talos.excel.ExcelUtils;
 import com.talos.pojo.ControllerDetail;
 import com.talos.pojo.ExecutionThreadDetail;
 import com.talos.pojo.StepDetail;
+import com.talos.utils.Utils;
 
 /**
  * ExecutorService.
@@ -30,7 +32,7 @@ import com.talos.pojo.StepDetail;
 public class ExecutorService extends Init implements Runnable, StringConstants {
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(ExecutorService.class);
+	final static Logger logger = LogManager.getLogger(ExecutorService.class);
 
 	/**
 	 * Thread run method
@@ -95,6 +97,7 @@ public class ExecutorService extends Init implements Runnable, StringConstants {
 		try {
 			logger.info("\n Execution Started");
 			createExecutionResultDir();
+			Utils.loadComponentDetails();
 			if (jscoverage) {
 				setUpOnce();
 			}

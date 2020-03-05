@@ -1,6 +1,8 @@
 package com.talos;
 
 import java.io.BufferedReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -16,7 +18,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
@@ -35,7 +36,7 @@ import com.talos.selenium.utils.FileGenerator;
 public class RestExecutorService extends Init implements StringConstants, Runnable {
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(RestExecutorService.class);
+	final static Logger logger = LogManager.getLogger(RestExecutorService.class);
 	
 	/** The script details map. */
 	Multimap<String, StepDetail> scriptDetailsMap;

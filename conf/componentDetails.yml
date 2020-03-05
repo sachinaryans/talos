@@ -2,7 +2,7 @@ componentDetails:
  - component: "menu"
    tag: "div"
    className: "naveMenu"
-   method: ""   
+   method: "com.talos.selenium.Keywords.navigateMenu"   
  - component: "textbox"
    tag: "input"
    className: ""

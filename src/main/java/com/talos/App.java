@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.openqa.selenium.WebDriver;
 
@@ -50,7 +51,7 @@ public class App extends Application implements StringConstants {
 	private final TextArea loggingView = new TextArea();
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(App.class);
+	final static Logger logger = LogManager.getLogger(App.class);
 	
 	/** The generator driver. */
 	WebDriver generatorDriver = null;
@@ -90,8 +91,11 @@ public class App extends Application implements StringConstants {
 		System.setProperty("logFolder", Init.workDir.concat("/log"));
 		// Init.checkToolFolders();
 		System.setProperty("threadName", "thread1");
-		PropertyConfigurator.configure(Init.confDir.concat("/log4j.properties"));
-		BasicConfigurator.configure();
+		LoggerContext context = (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
+		File file = new File(Init.confDir.concat("/log4j.properties"));
+
+		// this will force a reconfiguration
+		context.setConfigLocation(file.toURI());
 		logger.info("Tool Started");
 		launch(args);
 	}
@@ -252,6 +256,7 @@ public class App extends Application implements StringConstants {
 					public void handle(WorkerStateEvent t) {
 						logth.stop();
 						stage.close();
+						LogManager.shutdown();
 						System.exit(0);
 					}
 				});

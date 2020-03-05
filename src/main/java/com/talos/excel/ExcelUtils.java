@@ -1,6 +1,7 @@
 package com.talos.excel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 
@@ -15,7 +16,7 @@ import com.talos.pojo.StepDetail;
 public class ExcelUtils extends Init {
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(ExcelUtils.class);
+	final static Logger logger = LogManager.getLogger(ExcelUtils.class);
 
 	/**
 	 * Gets the cell value.

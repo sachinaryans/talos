@@ -10,9 +10,11 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The Class LogFileServer.
@@ -39,7 +41,7 @@ public class LogFileServer extends Init implements Runnable {
 	private volatile boolean logThreadBool = true;
 	
 	/** The Constant logger. */
-	static final Logger logger = Logger.getLogger(LogFileServer.class);
+	static final Logger logger = LogManager.getLogger(LogFileServer.class);
 
 	/**
 	 * Instantiates a new log file server.
@@ -269,7 +271,7 @@ public class LogFileServer extends Init implements Runnable {
 			if (logserver != null) {
 				logserver.close();
 			}
-			logThread.interrupt();
+			logThread.stop();
 		} catch (Exception e) {
 			logger.error("Error while log server stop" + e);
 		}

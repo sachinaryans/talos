@@ -470,7 +470,7 @@
                                                                         <div class="stepLineDetail">Keyword: $scriptDetail.getKeyword()</div>
                                                                         <div class="stepLineDetail">Label: $scriptDetail.getLabel()</div>
                                                                         <div class="stepLineDetail">Xpath: $scriptDetail.getXpath()</div>
-                                                                        <div class="stepLineDetail">ActualData: $scriptDetail.getActualData()</div>
+                                                                        <div class="stepLineDetail">Data: $scriptDetail.getActualData()</div>
                                                                         <div class="stepLineDetail">StartTime: $scriptDetail.getStepStartTime()</div>
                                                                         <div class="stepLineDetail">End Time: $scriptDetail.getStepEndTime()</div>
                                                                         <div class="stepLineDetail">Step Time: $scriptDetail.getStepTime()</div>

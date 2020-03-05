@@ -1,10 +1,11 @@
 package com.talos;
 
 import java.io.File;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -22,7 +23,7 @@ import com.talos.pojo.StepDetail;
 public class ReadScriptDetail extends Init {
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(ReadScriptDetail.class);
+	final static Logger logger = LogManager.getLogger(ReadScriptDetail.class);
 
 	/**
 	 * Read details.

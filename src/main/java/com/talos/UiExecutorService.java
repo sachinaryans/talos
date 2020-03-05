@@ -1,10 +1,11 @@
 package com.talos;
 
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -32,69 +33,71 @@ import com.talos.pojo.TestCaseDetail;
 import com.talos.selenium.Keywords;
 import com.talos.selenium.utils.CommonUtils;
 import com.talos.selenium.utils.FileGenerator;
+import com.talos.utils.Utils;
 
 /**
  * ThreadExecutorService.
+ * 
  * @author Sachin
  */
 public class UiExecutorService extends Init implements Runnable, StringConstants {
-	
+
 	/** The script details map. */
 	Multimap<String, StepDetail> scriptDetailsMap;
-	
+
 	/** The thread browser. */
 	String threadBrowser;
-	
+
 	/** The thread group name. */
 	String threadGroupName;
 	/** The test case start dt time. */
 	String testCaseStartDtTime;
-	
+
 	/** The test case end dt time. */
 	String testCaseEndDtTime;
-	
+
 	/** The thread total tc. */
 	int threadTotalTc = 0;
-	
+
 	/** The thread total failed tc. */
 	int threadTotalFailedTc = 0;
-	
+
 	/** The thread total skipped tc. */
 	int threadTotalSkippedTc = 0;
-	
+
 	/** The thread total pass tc. */
 	int threadTotalPassTc = 0;
-	
+
 	/** The thread total steps. */
 	int threadTotalSteps = 0;
-	
+
 	/** The thread total pass steps. */
 	int threadTotalPassSteps = 0;
-	
+
 	/** The thread total fail steps. */
 	int threadTotalFailSteps = 0;
-	
+
 	/** The thread total skipped steps. */
 	int threadTotalSkippedSteps = 0;
 
 	/** The driver. */
 	WebDriver driver = null;
-	
+
 	/** The wait. */
 	FluentWait<WebDriver> wait;
-	
+
 	/** The jse. */
 	JavascriptExecutor jse;
-	
+
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(UiExecutorService.class);
+	final static Logger logger = LogManager.getLogger(UiExecutorService.class);
 
 	/**
 	 * Instantiates a new ui executor service.
 	 *
 	 * @param threadscriptDetailsMap the threadscript details map
-	 * @param browser the browser
-	 * @param threadGroup the thread group
+	 * @param browser                the browser
+	 * @param threadGroup            the thread group
 	 */
 	public UiExecutorService(Multimap<String, StepDetail> threadscriptDetailsMap, String browser, String threadGroup) {
 		scriptDetailsMap = threadscriptDetailsMap;
@@ -162,7 +165,11 @@ public class UiExecutorService extends Init implements Runnable, StringConstants
 					try {
 						testCaseDetail.setTestCase(stepDetail.getTestCase());
 						if (CommonUtils.checkDependentTcStatus(stepDetail.getDependsOn())) {
-							if (stepDetail.getStepAction().isEmpty()) {
+							 stepDetail.setComponentKeyword(Utils.findComponentMethod(stepDetail.getComponent()));
+							if (stepDetail.getComponentKeyword() != null
+									&& !stepDetail.getComponentKeyword().isEmpty()) {
+								CommonUtils.executeCustomMethod(stepDetail, driver);
+							} else if (stepDetail.getStepAction().isEmpty()) {
 								setStepActionConditions(stepDetail);
 							} else if (stepDetail.getStepAction().equals(VERIFY)) {
 								verifyStepActionConditions(stepDetail);
@@ -259,7 +266,9 @@ public class UiExecutorService extends Init implements Runnable, StringConstants
 				driver.quit();
 				executionThreadDetailsMap.get(threadGroupName).setExecutionStatus(FINISHED);
 				executionThreadDetailsMap.get(threadGroupName).setThreadEndTime(dateFormat.format(new Date()));
-				executionThreadDetailsMap.get(threadGroupName).setThreadTime(CommonUtils.getTime(executionThreadDetailsMap.get(threadGroupName).getThreadStartTime(), executionThreadDetailsMap.get(threadGroupName).getThreadEndTime()));
+				executionThreadDetailsMap.get(threadGroupName).setThreadTime(
+						CommonUtils.getTime(executionThreadDetailsMap.get(threadGroupName).getThreadStartTime(),
+								executionThreadDetailsMap.get(threadGroupName).getThreadEndTime()));
 				FileGenerator.generateResultFile();
 
 			}
@@ -301,7 +310,7 @@ public class UiExecutorService extends Init implements Runnable, StringConstants
 	 *
 	 * @return the webdriver
 	 * @throws InterruptedException the interrupted exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException          Signals that an I/O exception has occurred.
 	 */
 	public WebDriver getWebdriver() throws InterruptedException, IOException {
 		logger.info(threadGroupName + "-->getWebdriver --> ");
@@ -451,6 +460,7 @@ public class UiExecutorService extends Init implements Runnable, StringConstants
 	 */
 	public void setStepActionConditions(StepDetail stepDetail) {
 		try {
+
 			if (stepDetail.getComponent().equalsIgnoreCase("textbox")
 					|| stepDetail.getComponent().equalsIgnoreCase("textarea")
 					|| stepDetail.getComponent().equalsIgnoreCase("email")

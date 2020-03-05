@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -25,6 +26,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.talos.constants.StringConstants;
 import com.talos.excel.ExcelUtils;
+import com.talos.pojo.ComponentDetails;
 import com.talos.pojo.ControllerDetail;
 import com.talos.pojo.ExecutionThreadDetail;
 import com.talos.pojo.StepDetail;
@@ -38,7 +40,7 @@ import jscover.Main;
 public class Init implements StringConstants {
 	
 	/** The Constant logger. */
-	final static Logger logger = Logger.getLogger(Init.class);
+	final static Logger logger = LogManager.getLogger(Init.class);
 	
 	/** The work dir. */
 	public static String workDir = System.getProperty("user.dir");
@@ -81,6 +83,9 @@ public class Init implements StringConstants {
 	
 	/** The app url. */
 	public static String appUrl = BLANK;
+	
+	/** The component details. */
+	public static ComponentDetails componentDetails;
 	
 	/** The list of thread. */
 	public static ArrayList<Thread> listOfThread = new ArrayList<>();
