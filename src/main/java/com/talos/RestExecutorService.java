@@ -11,6 +11,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPatch;
@@ -94,6 +96,8 @@ public class RestExecutorService extends Init implements StringConstants, Runnab
 	
 	/** The verify reponse. */
 	boolean verifyReponse = false;
+
+	Map<String,String> headerMap ;
 	
 	/** The url. */
 	String url;
@@ -138,6 +142,7 @@ public class RestExecutorService extends Init implements StringConstants, Runnab
 
 			for (String key : scriptDetailsMap.keySet()) {
 				logger.info("Executing test case-" + key);
+				headerMap = new HashMap<String,String>();
 				TestCaseDetail testCaseDetail = new TestCaseDetail();
 				totalTestCase++;
 				threadTotalTc++;
@@ -378,8 +383,11 @@ public class RestExecutorService extends Init implements StringConstants, Runnab
 
 		} else if (httpmethod.equalsIgnoreCase("patch")) {
 			HttpPatch patch = new HttpPatch(url);
-			patch.addHeader("content-type", "application/json");
-			patch.addHeader("X-COM-PERSIST", "application/json");
+			for(String key:headerMap.keySet()){
+				patch.addHeader(key, headerMap.get(key));
+			}
+			//patch.addHeader("content-type", "application/json");
+			//patch.addHeader("X-COM-PERSIST", "application/json");
 			patch.setEntity(new StringEntity(body));
 			try (CloseableHttpClient httpClient = HttpClients.createDefault();
 					CloseableHttpResponse response = httpClient.execute(patch)) {
@@ -437,6 +445,7 @@ public class RestExecutorService extends Init implements StringConstants, Runnab
 		CommonUtils.setStepStartDetails(stepDetail, "setheader",
 				CommonUtils.getLocalizationReportData(stepDetail, "$setHeader"));
 		con.setRequestProperty(stepDetail.getLabel(), stepDetail.getActualData());
+		headerMap.put(stepDetail.getLabel(), stepDetail.getActualData());
 		CommonUtils.setStepEndDetails(stepDetail);
 	}
 
