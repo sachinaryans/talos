@@ -178,6 +178,8 @@ public class CommonUtils extends Init implements StringConstants {
 			}
 			TimeUnit.SECONDS.sleep(1);
 		}
+		JavascriptExecutor jse = (JavascriptExecutor) driver ;
+		jse.executeScript("arguments[0].scrollIntoView(true);", el);
 		return el;
 	}
 
