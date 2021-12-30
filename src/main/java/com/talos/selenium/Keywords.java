@@ -5,14 +5,27 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Month;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 
 import com.talos.Init;
 import com.talos.pojo.StepDetail;
@@ -20,6 +33,7 @@ import com.talos.selenium.utils.CommonUtils;
 
 /**
  * Keywords.
+ * 
  * @author Sachin
  */
 public class Keywords extends Init {
@@ -28,7 +42,7 @@ public class Keywords extends Init {
 	 * Sets the text in text box.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void setTextInTextBox(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "setTextInTextBox",
@@ -53,7 +67,7 @@ public class Keywords extends Init {
 	 * Select radio button.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void selectRadioButton(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "selectRadioButton",
@@ -84,11 +98,40 @@ public class Keywords extends Init {
 		}
 	}
 
+	public static void selectMobileRadioButton(StepDetail stepDetail, WebDriver driver) {
+		CommonUtils.setStepStartDetails(stepDetail, "selectMobileRadioButton",
+				CommonUtils.getLocalizationReportData(stepDetail, "$selectMobileRadioButton"));
+		boolean found = false;
+		try {
+			WebElement el = CommonUtils.getWebElement(driver, stepDetail.getXpath());
+			if (el != null) {
+				for (WebElement option : el.findElements(By.tagName("input"))) {
+					if (option.getText().equals(stepDetail.getActualData())
+							|| option.getAttribute("value").equals(stepDetail.getActualData())) {
+						option.click();
+						found = true;
+						break;
+					}
+				}
+			} else {
+				CommonUtils.setFailDetails(stepDetail, "Element not found", driver);
+			}
+			if (!found) {
+				CommonUtils.setFailDetails(stepDetail, stepDetail.getActualData() + " Option not found", driver);
+			}
+
+		} catch (Exception e) {
+			CommonUtils.setFailDetails(stepDetail, e.toString(), driver);
+		} finally {
+			CommonUtils.setStepEndDetails(stepDetail);
+		}
+	}
+
 	/**
 	 * Select value in select.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void selectValueInSelect(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "selectValueInSelect",
@@ -115,11 +158,30 @@ public class Keywords extends Init {
 		}
 	}
 
+	public static void selectValueInMobileSelect(StepDetail stepDetail, WebDriver driver) {
+		CommonUtils.setStepStartDetails(stepDetail, "selectValueInMobileSelect",
+				CommonUtils.getLocalizationReportData(stepDetail, "$selectValueInMobileSelect"));
+		try {
+			WebElement el = CommonUtils.getWebElement(driver, stepDetail.getXpath());
+			if (el != null) {
+				Select select = new Select(el);
+				select.selectByVisibleText(stepDetail.getActualData());
+			} else {
+				CommonUtils.setFailDetails(stepDetail, "Element not found", driver);
+			}
+
+		} catch (Exception e) {
+			CommonUtils.setFailDetails(stepDetail, e.toString(), driver);
+		} finally {
+			CommonUtils.setStepEndDetails(stepDetail);
+		}
+	}
+
 	/**
 	 * Select checkbox.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void selectCheckbox(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "selectCheckbox",
@@ -144,7 +206,7 @@ public class Keywords extends Init {
 	 * Click on button.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void clickOnButton(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "clickOnButton",
@@ -168,7 +230,7 @@ public class Keywords extends Init {
 	 * Select file.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void selectFile(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "selectFile",
@@ -205,7 +267,7 @@ public class Keywords extends Init {
 	 * Navigate menu.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void navigateMenu(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "navigateMenu",
@@ -241,7 +303,7 @@ public class Keywords extends Init {
 	 * Navigate to url.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void navigateToUrl(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "navigateToUrl",
@@ -260,7 +322,7 @@ public class Keywords extends Init {
 	 * Handle alert.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void handleAlert(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "handleAlert",
@@ -303,7 +365,7 @@ public class Keywords extends Init {
 	 * Verify text in text box.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void verifyTextInTextBox(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "verifyTextInTextBox",
@@ -333,7 +395,7 @@ public class Keywords extends Init {
 	 * Verify radio button.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void verifyRadioButton(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "verifyRadioButton",
@@ -369,7 +431,7 @@ public class Keywords extends Init {
 	 * Verify value in select.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void verifyValueInSelect(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "verifyValueInSelect",
@@ -401,7 +463,7 @@ public class Keywords extends Init {
 	 * Verify checkbox.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void verifyCheckbox(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "verifyCheckbox",
@@ -436,7 +498,7 @@ public class Keywords extends Init {
 	 * Verify table column.
 	 *
 	 * @param stepDetail the step detail
-	 * @param driver the driver
+	 * @param driver     the driver
 	 */
 	public static void verifyTableColumn(StepDetail stepDetail, WebDriver driver) {
 		CommonUtils.setStepStartDetails(stepDetail, "verifyTableColumn",
@@ -481,6 +543,89 @@ public class Keywords extends Init {
 							"Actual Value :-" + actualValue + " Expected Data :-" + inputValArr[1], driver);
 				}
 
+			} else {
+				CommonUtils.setFailDetails(stepDetail, "Element not found", driver);
+			}
+
+		} catch (Exception e) {
+			CommonUtils.setFailDetails(stepDetail, e.toString(), driver);
+		} finally {
+			CommonUtils.setStepEndDetails(stepDetail);
+		}
+	}
+
+	public static void setDateInMobile(StepDetail stepDetail, AndroidDriver<MobileElement> driver) {
+		CommonUtils.setStepStartDetails(stepDetail, "setDateInMobile",
+				CommonUtils.getLocalizationReportData(stepDetail, "$setDateInMobile"));
+		try {
+			java.util.Date date = new SimpleDateFormat("dd/MM/yyyy").parse(stepDetail.getActualData());
+			WebElement el = CommonUtils.getWebElement(driver, stepDetail.getXpath());
+			if (el != null) {
+				TouchAction touchAction = new TouchAction(driver);
+				// JavascriptExecutor js = (JavascriptExecutor)driver;
+				// js.executeScript("arguments[0].click();", el);
+				// Select select = new Select(el);
+				// select.getAllSelectedOptions();
+				el.click();
+				TimeUnit.MILLISECONDS.sleep(500);
+				driver.context("NATIVE_APP");// WEBVIEW_1
+
+				driver.findElementById("android:id/date_picker_header_year").click();
+				TimeUnit.MILLISECONDS.sleep(500);
+				Actions action = new Actions(driver);
+				boolean selectYear = false;
+				WebElement scoll = driver.findElementByXPath("//android.widget.ListView");
+				if (Integer.parseInt(driver.findElementsByXPath("//android.widget.TextView").get(0).getText()) > date
+						.getYear()+1900) {
+					while (!selectYear) {
+						action.clickAndHold(scoll).moveByOffset(0, 800).perform();
+						for (WebElement year : driver.findElementsByXPath("//android.widget.TextView")) {
+							if (year.getText().equals(String.valueOf(date.getYear()+1900))) {
+								year.click();
+								selectYear=true;
+								break;
+							}
+						}
+					}
+				}else{
+					while (!selectYear) {
+						action.clickAndHold(scoll).moveByOffset(0, -800).perform();
+						for (WebElement year : driver.findElementsByXPath("//android.widget.TextView")) {
+							if (year.getText().equals(String.valueOf(date.getYear()+1900))) {
+								year.click();
+								selectYear=true;
+								break;
+							}
+						}
+					}
+				}
+
+				
+
+				Month month = Month.of(date.getMonth()+1);
+
+				do {
+					TimeUnit.MILLISECONDS.sleep(200);
+					touchAction.press(PointOption.point(248, 740))
+							.waitAction(WaitOptions.waitOptions(Duration.ofMillis(50))).release().perform();
+				} while (!driver.findElementsByXPath("//android.view.View").get(1).getAttribute("content-desc").toLowerCase()
+						.contains("January".toLowerCase()));
+				do {
+					TimeUnit.MILLISECONDS.sleep(200);
+					touchAction.press(PointOption.point(846, 740))
+							.waitAction(WaitOptions.waitOptions(Duration.ofMillis(50))).release().perform();
+				} while (!driver.findElementsByXPath("//android.view.View").get(1).getAttribute("content-desc").toLowerCase()
+						.contains(month.toString().toLowerCase()));
+
+				TimeUnit.SECONDS.sleep(1);
+				for (WebElement dd : driver.findElementsByXPath("//android.view.View")) {
+					if (dd.getText().equals(String.valueOf(date.getDate()))) {
+						dd.click();
+						break;
+					}
+				}
+				driver.findElementById("android:id/button1").click();
+				driver.context("CHROMIUM");//
 			} else {
 				CommonUtils.setFailDetails(stepDetail, "Element not found", driver);
 			}

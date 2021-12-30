@@ -102,21 +102,29 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.10.5.1</version>
+			<version>2.12.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-controls</artifactId>
+    <version>17-ea+8</version>
+</dependency>
 
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>javafx</artifactId>
-			<version>2.2</version>
-			<systemPath>${java.home}/lib/ext/jfxrt.jar</systemPath>
-			<scope>system</scope>
-		</dependency>
+	<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-fxml</artifactId>
+    <version>17-ea+8</version>
+</dependency>
+
+
+
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
 
 		<!-- https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path -->
@@ -136,6 +144,12 @@
 			<artifactId>ashot</artifactId>
 			<version>1.5.4</version>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/io.appium/java-client -->
+<dependency>
+    <groupId>io.appium</groupId>
+    <artifactId>java-client</artifactId>
+    <version>7.4.1</version>
+</dependency>
 
 
 	</dependencies>
