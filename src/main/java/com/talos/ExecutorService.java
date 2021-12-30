@@ -59,7 +59,12 @@ public class ExecutorService extends Init implements Runnable, StringConstants {
 							: controllerDetail.getDependsOn();
 				}
 				scriptDetailsMap.putAll(threadscriptDetailsMap);
-				if (scriptType.equalsIgnoreCase(UI)) {
+				if(threadMachineName.equalsIgnoreCase("Android")){
+					MobileExecutorService mobileExecutorService = new MobileExecutorService(threadscriptDetailsMap, browser,
+					thread);
+			executionThread = new Thread(mobileExecutorService);
+				}
+				else if (scriptType.equalsIgnoreCase(UI)&&threadMachineName.equalsIgnoreCase("")) {
 					UiExecutorService uiExecutorService = new UiExecutorService(threadscriptDetailsMap, browser,
 							thread);
 					executionThread = new Thread(uiExecutorService);
@@ -158,7 +163,7 @@ public class ExecutorService extends Init implements Runnable, StringConstants {
 		try {
 			fis = new FileInputStream(new File(confDir.concat(File.separator).concat("Controller.xlsx")));
 			wb = new XSSFWorkbook(fis);
-			Sheet sheet = wb.getSheetAt(0);
+			Sheet sheet = wb.getSheet("Sheet1");
 			for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
 				if (sheet.getRow(i) != null) {
 					ControllerDetail controllerDetail = new ControllerDetail();
@@ -166,8 +171,8 @@ public class ExecutorService extends Init implements Runnable, StringConstants {
 					controllerDetail.setTestScript(ExcelUtils.getCellValue(sheet.getRow(i).getCell(1)));
 					controllerDetail.setTag(ExcelUtils.getCellValue(sheet.getRow(i).getCell(2)));
 					controllerDetail.setThread(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)));
-					controllerDetail.setDependsOn(ExcelUtils.getCellValue(sheet.getRow(i).getCell(4)));
-					controllerDetail.setMachine(ExcelUtils.getCellValue(sheet.getRow(i).getCell(5)));
+					controllerDetail.setDependsOn(ExcelUtils.getCellValue(sheet.getRow(i).getCell(5)));
+					controllerDetail.setMachine(ExcelUtils.getCellValue(sheet.getRow(i).getCell(4)));
 					controllerDetail.setBrowser(ExcelUtils.getCellValue(sheet.getRow(i).getCell(6)));
 					controllerDetails.put(controllerDetail.getThread(), controllerDetail);
 				}
