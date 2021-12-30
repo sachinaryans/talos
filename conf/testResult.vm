@@ -10,6 +10,11 @@
         </script>
 
         <style>
+		*{
+		padding:0px;
+		border:0px;
+		}
+		
             .sk-cube-grid {
                 width: 40px;
                 height: 40px;
@@ -278,9 +283,12 @@
                 display: none;
                 color: grey;
             }
-            table, th, td{
-			border: 1px solid grey;
-			}
+
+            table,
+            td,
+            th {
+                border: 1px solid grey;
+            }
         </style>
     </head>
     <body style="background-color:rgb(27, 27, 27); margin:0px;">
@@ -291,8 +299,9 @@
 
                     <div id="totalTcDiv" style="width: 300px; height: 100%;"></div>
                 </div>
-                <div style="float:left;width:60%;margin-left:12%;margin-top:0;margin-right:0; overflow:auto;height: 20%;">
-                    <table  style="color:grey;" id="threadDetails">
+                <div
+                    style="float:left;width:60%;margin-left:12%;margin-top:0;margin-right:0; overflow:auto;height: 20%;">
+                    <table style="color:grey;" id="threadDetails">
                         <thead>
                             <th>Thread</th>
                             <th>StartTime</th>
@@ -304,7 +313,7 @@
                             <th>Browser</th>
                             <th>Status</th>
                         </thead>
-                         <tbody style="font-size:12px;">
+                        <tbody style="font-size:12px;">
                             #foreach($thread in $executionThreadDetailsMap.keySet())
                                 <tr>
                                     <td>$thread</td>
@@ -469,12 +478,20 @@
                                                                         #end
                                                                         <div class="stepLineDetail">Keyword: $scriptDetail.getKeyword()</div>
                                                                         <div class="stepLineDetail">Label: $scriptDetail.getLabel()</div>
-                                                                        <div class="stepLineDetail">Xpath: $scriptDetail.getXpath()</div>
+                                                                        #if(!$scriptDetail.getXpath())
+                                                                            <div class="stepLineDetail"></div>
+                                                                        #else
+                                                                            <div class="stepLineDetail">Xpath: $scriptDetail.getXpath()</div>
+                                                                        #end
                                                                         <div class="stepLineDetail">Data: $scriptDetail.getActualData()</div>
                                                                         <div class="stepLineDetail">StartTime: $scriptDetail.getStepStartTime()</div>
                                                                         <div class="stepLineDetail">End Time: $scriptDetail.getStepEndTime()</div>
                                                                         <div class="stepLineDetail">Step Time: $scriptDetail.getStepTime()</div>
-                                                                        <div class="stepLineDetail">Info: $scriptDetail.getInfo()</div>
+                                                                        #if(!$scriptDetail.getInfo())
+                                                                            <div class="stepLineDetail"></div>
+                                                                        #else
+                                                                            <div class="stepLineDetail">Info: $scriptDetail.getInfo()</div>
+                                                                        #end
                                                                         #if(!$scriptDetail.getScreenShotPath())
                                                                             <div class="stepLineDetail"></div>
                                                                         #else
@@ -549,7 +566,7 @@
                                 var suitechartId = suiteDetails
                                     .getElementsByTagName("div")[11]
                                     .id;
-                                
+
                                 var navContentList = this
                                     .nextElementSibling
                                     .getElementsByClassName("suiteItemList");
