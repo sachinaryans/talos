@@ -32,7 +32,6 @@ import javafx.scene.control.TextArea;
 public class MyCustomLogger extends AbstractAppender {
 
 	/** The text area. */
-	@SuppressWarnings("restriction")
 	private static volatile TextArea textArea = null;
 	
 	/** The rw lock. */
@@ -49,6 +48,7 @@ public class MyCustomLogger extends AbstractAppender {
 	 * @param layout the layout
 	 * @param ignoreExceptions the ignore exceptions
 	 */
+	@SuppressWarnings("deprecation")
 	protected MyCustomLogger(String name, Filter filter, Layout<? extends Serializable> layout,
 			final boolean ignoreExceptions) {
 		super(name, filter, layout, ignoreExceptions);
@@ -59,7 +59,6 @@ public class MyCustomLogger extends AbstractAppender {
 	 *
 	 * @param textArea the new text area
 	 */
-	@SuppressWarnings("restriction")
 	public static void setTextArea(final TextArea textArea) {
 		MyCustomLogger.textArea = textArea;
 	}
@@ -69,10 +68,9 @@ public class MyCustomLogger extends AbstractAppender {
 	 *
 	 * @param loggingEvent the logging event
 	 */
-	@SuppressWarnings("restriction")
 	public void append(LogEvent loggingEvent) {
 		readLock.lock();
-		final String message = new String(getLayout().toByteArray(loggingEvent)).replace("\n", "");
+		final String message = new String(getLayout().toByteArray(loggingEvent));
 		try {
 			Platform.runLater(new Runnable() {
 				@Override
