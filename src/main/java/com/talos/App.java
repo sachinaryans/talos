@@ -125,7 +125,6 @@ public class App extends Application implements StringConstants {
 		reports.underlineProperty().setValue(Boolean.TRUE);
 		label.setText("Template Type");
 		toolLabel.setText("Talos");
-		toolLabel.setText("Talos");
 		toolLabel.setStyle("-fx-font-weight: bold");
 		toolLabel.setStyle("-fx-font-size: 16");
 		toolLabel.setTextFill(Color.RED);
