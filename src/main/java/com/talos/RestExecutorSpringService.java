@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -112,6 +113,7 @@ public class RestExecutorSpringService extends Init implements Runnable {
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     HttpEntity<String> requestEntity;
+    ResponseEntity<String> response;
 
     /**
      * Instantiates a new rest executor service.
@@ -322,45 +324,50 @@ public class RestExecutorSpringService extends Init implements Runnable {
             StepDetail stepDetail) throws ProtocolException, IOException {
         CommonUtils.setStepStartDetails(stepDetail, "ResponseCode",
                 CommonUtils.getLocalizationReportData(stepDetail, "$responseCode"));
+                try{
         replaceBody = false;
         setHeader = false;
         verifyReponse = true;
         if (httpmethod.equalsIgnoreCase("get")) {
             requestEntity = new HttpEntity<String>(body.toString(), headers);
-            ResponseEntity<String> response = restTemplate.exchange(
+            response = restTemplate.exchange(
                     url, HttpMethod.GET,requestEntity,String.class);
-                    responseCode = response.getStatusCode().toString().replace(" OK", BLANK);
+                    responseCode = response.getStatusCode().toString().split(SPACE)[0];
             responseBody = response.getBody().toString();
             
         } else if (httpmethod.equalsIgnoreCase("delete")) {
             requestEntity = new HttpEntity<String>(body.toString(), headers);
-            ResponseEntity<String> response = restTemplate.exchange(
+             response = restTemplate.exchange(
                     url, HttpMethod.DELETE,requestEntity,String.class);
-                    responseCode = response.getStatusCode().toString().replace(" OK", BLANK);
+                    responseCode = response.getStatusCode().toString().split(SPACE)[0];
             responseBody = response.getBody().toString();
             
         } else if (httpmethod.equalsIgnoreCase("post")) {
             requestEntity = new HttpEntity<String>(body.toString(), headers);
-            ResponseEntity<String> response = restTemplate.exchange(
+            response = restTemplate.exchange(
                     url, HttpMethod.POST,requestEntity, String.class);
-                    responseCode = response.getStatusCode().toString().replace(" OK", BLANK);
+                    responseCode = response.getStatusCode().toString().split(SPACE)[0];
             responseBody = response.getBody().toString();
 
         } else if (httpmethod.equalsIgnoreCase("put")) {
             requestEntity = new HttpEntity<String>(body.toString(), headers);
-            ResponseEntity<String> response = restTemplate.exchange(
+            response = restTemplate.exchange(
                     url, HttpMethod.PUT,requestEntity,String.class);
-                    responseCode = response.getStatusCode().toString().replace(" OK", BLANK);
+                    responseCode = response.getStatusCode().toString().split(SPACE)[0];
             responseBody = response.getBody().toString();
         
 
         } else if (httpmethod.equalsIgnoreCase("patch")) {
             requestEntity = new HttpEntity<String>(body.toString(), headers);
-            ResponseEntity<String> response = restTemplate.exchange(
+             response = restTemplate.exchange(
                     url, HttpMethod.PATCH,requestEntity,String.class);
-                    responseCode = response.getStatusCode().toString().replace(" OK", BLANK);
+                    responseCode = response.getStatusCode().toString().split(SPACE)[0];
             responseBody = response.getBody().toString();
         }
+    }catch(HttpClientErrorException e){
+        responseCode = e.getMessage().toString().split(SPACE)[0];
+        responseBody=e.getMessage();
+    }finally{
         if (stepDetail.getActualData().contains(String.valueOf(responseCode))) {
             stepDetail.setStatus(PASS);
         } else {
@@ -370,7 +377,9 @@ public class RestExecutorSpringService extends Init implements Runnable {
         CommonUtils.setStepEndDetails(stepDetail);
         logger.info("tcid:-" + stepDetail.getTcId() + "response:-" + responseBody);
 
-        return responseCode;
+       
+    }
+    return responseCode;
     }
 
     /**
